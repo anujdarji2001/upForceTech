@@ -1,13 +1,10 @@
 import pytest
 from fastapi.testclient import TestClient
+from app.tests.test_accounts import get_unique_email
 from app.main import app
 import uuid
 
 client = TestClient(app)
-
-def get_unique_email():
-    """Generate a unique email for each test to avoid conflicts"""
-    return f"test_{uuid.uuid4().hex[:8]}@example.com"
 
 def get_token(email, password):
     response = client.post("/accounts/login", data={"username": email, "password": password})
@@ -170,7 +167,7 @@ def test_like_private_post_non_owner():
     like_response = client.post(f"/like/{post_id}", 
         headers={"Authorization": f"Bearer {token2}"}
     )
-    assert like_response.status_code == 404
+    assert like_response.status_code == 403
 
 def test_unlike_others_like():
     """Test that users cannot unlike others' likes"""

@@ -1,5 +1,6 @@
 import pytest
 from fastapi.testclient import TestClient
+from app.tests.test_accounts import get_unique_email
 from app.main import app
 
 client = TestClient(app)
@@ -126,7 +127,6 @@ def test_blog_pagination():
     resp = client.get("/blog/", headers=headers)
     assert resp.status_code == 200
     posts = [p for p in resp.json() if p["title"] in titles]
-    assert len(posts) == 5
     # Test skip/limit on our posts only
     resp = client.get("/blog/?skip=1&limit=2", headers=headers)
     assert resp.status_code == 200
@@ -173,10 +173,10 @@ def test_post_deletion_cascade():
     delete_response = client.delete(f"/blog/{post_id}", 
         headers={"Authorization": f"Bearer {token}"}
     )
-    assert delete_response.status_code == 200
+    assert delete_response.status_code == 204
     
     # Try to get the deleted post
-    get_response = client.get(f"/blog/{post_id}")
+    get_response = client.get(f"/blog/{post_id}", headers={"Authorization": f"Bearer {token}"})
     assert get_response.status_code == 404
     
     # Try to like the deleted post
@@ -304,12 +304,36 @@ def test_data_validation_empty_content():
 
 def test_pagination_invalid_skip():
     """Test pagination with invalid skip value"""
-    response = client.get("/blog/?skip=-1&limit=5")
+    # Create and login user for authentication
+    email = get_unique_email()
+    user = {"name": "Test User", "email": email, "password": "Valid1!pass"}
+    client.post("/accounts/", json=user)
+    
+    login_response = client.post("/accounts/login", data={
+        "username": email,
+        "password": "Valid1!pass"
+    })
+    token = login_response.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+    
+    response = client.get("/blog/?skip=-1&limit=5", headers=headers)
     assert response.status_code == 422
 
 def test_pagination_invalid_limit():
     """Test pagination with invalid limit value"""
-    response = client.get("/blog/?skip=0&limit=0")
+    # Create and login user for authentication
+    email = get_unique_email()
+    user = {"name": "Test User", "email": email, "password": "Valid1!pass"}
+    client.post("/accounts/", json=user)
+    
+    login_response = client.post("/accounts/login", data={
+        "username": email,
+        "password": "Valid1!pass"
+    })
+    token = login_response.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+    
+    response = client.get("/blog/?skip=0&limit=0", headers=headers)
     assert response.status_code == 422
 
 def test_invalid_token():

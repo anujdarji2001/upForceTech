@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, ConfigDict
+from pydantic import BaseModel, EmailStr, ConfigDict, Field
 from typing import Optional, List
 from datetime import datetime
 
@@ -26,7 +26,8 @@ class PostBase(BaseModel):
     is_public: bool = True
 
 class PostCreate(PostBase):
-    pass
+    title: str = Field(..., min_length=1)
+    content: str = Field(..., min_length=1)
 
 class PostUpdate(BaseModel):
     title: Optional[str] = None

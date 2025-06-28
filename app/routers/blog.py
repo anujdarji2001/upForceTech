@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 from sqlalchemy.orm import Session
 from typing import List
 from .. import schemas, crud, auth, dependencies
@@ -10,7 +10,12 @@ def create_blog(post: schemas.PostCreate, current_user: schemas.UserResponse = D
     return crud.create_post(db, post, current_user.id)
 
 @router.get("/", response_model=List[schemas.PostResponse])
-def get_blogs(skip: int = 0, limit: int = 100, current_user: schemas.UserResponse = Depends(auth.get_current_user), db: Session = Depends(dependencies.get_db)):
+def get_blogs(
+    skip: int = Query(0, ge=0), 
+    limit: int = Query(100, gt=0), 
+    current_user: schemas.UserResponse = Depends(auth.get_current_user), 
+    db: Session = Depends(dependencies.get_db)
+):
     all_posts = crud.get_posts(db, skip=skip, limit=limit)
     visible_posts = [
         post for post in all_posts
