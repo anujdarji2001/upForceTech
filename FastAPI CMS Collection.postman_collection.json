@@ -1,0 +1,1270 @@
+{
+	"info": {
+		"_postman_id": "bd087680-9cb0-48ab-bede-b8103bbd8be1",
+		"name": "FastAPI CMS Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "16989586"
+	},
+	"item": [
+		{
+			"name": "Register User1",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"User1\", \"email\": \"user1@example.com\", \"password\": \"Valid1!pass\"}"
+				},
+				"url": {
+					"raw": "{{base_url}}/accounts/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"accounts",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (pm.response.code === 200) {",
+							"    try {",
+							"        var json = pm.response.json();",
+							"        if (json.access_token) {",
+							"            pm.environment.set(\"token_user1\", json.access_token);",
+							"        }",
+							"    } catch (e) {}",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "user1@example.com"
+						},
+						{
+							"key": "password",
+							"value": "Valid1!pass"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/accounts/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"accounts",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User1 Creates Public Blog",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (pm.response.code === 200) {",
+							"    try {",
+							"        var json = pm.response.json();",
+							"        if (json.id) {",
+							"            pm.environment.set(\"blog_id_user1\", json.id);",
+							"        }",
+							"    } catch (e) {}",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"title\": \"User1 Public Blog\", \"description\": \"desc\", \"content\": \"content\", \"is_public\": true}"
+				},
+				"url": {
+					"raw": "{{base_url}}/blog/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"blog",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User1 Creates Private Blog",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (pm.response.code === 200) {",
+							"    try {",
+							"        var json = pm.response.json();",
+							"        if (json.id) {",
+							"            pm.environment.set(\"private_blog_id_user1\", json.id);",
+							"        }",
+							"    } catch (e) {}",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"title\": \"User1 Private Blog\", \"description\": \"desc\", \"content\": \"content\", \"is_public\": false}"
+				},
+				"url": {
+					"raw": "{{base_url}}/blog/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"blog",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register User2",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"User2\", \"email\": \"user2@example.com\", \"password\": \"Valid2!pass\"}"
+				},
+				"url": {
+					"raw": "{{base_url}}/accounts/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"accounts",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register User2 - Re-Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"User2\", \"email\": \"user2@example.com\", \"password\": \"Valid2!pass\"}"
+				},
+				"url": {
+					"raw": "{{base_url}}/accounts/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"accounts",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login User2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (pm.response.code === 200) {",
+							"    try {",
+							"        var json = pm.response.json();",
+							"        if (json.access_token) {",
+							"            pm.environment.set(\"token_user2\", json.access_token);",
+							"        }",
+							"    } catch (e) {}",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "user2@example.com"
+						},
+						{
+							"key": "password",
+							"value": "Valid2!pass"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/accounts/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"accounts",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User2 Creates Public Blog",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (pm.response.code === 200) {",
+							"    try {",
+							"        var json = pm.response.json();",
+							"        if (json.id) {",
+							"            pm.environment.set(\"blog_id_user2\", json.id);",
+							"        }",
+							"    } catch (e) {}",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user2}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"title\": \"User2 Public Blog\", \"description\": \"desc\", \"content\": \"content\", \"is_public\": true}"
+				},
+				"url": {
+					"raw": "{{base_url}}/blog/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"blog",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User2 Creates Private Blog",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (pm.response.code === 200) {",
+							"    try {",
+							"        var json = pm.response.json();",
+							"        if (json.id) {",
+							"            pm.environment.set(\"private_blog_id_user2\", json.id);",
+							"        }",
+							"    } catch (e) {}",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user2}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"title\": \"User2 Private Blog\", \"description\": \"desc\", \"content\": \"content\", \"is_public\": false}"
+				},
+				"url": {
+					"raw": "{{base_url}}/blog/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"blog",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Blogs (User1)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/blog/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"blog",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Blog Details (Public - User1)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/blog/{{blog_id_user1}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"blog",
+						"{{blog_id_user1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Blog Details (Private, Owner Only - User1)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/blog/{{private_blog_id_user1}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"blog",
+						"{{private_blog_id_user1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Blog",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"title\": \"Updated Blog\"}"
+				},
+				"url": {
+					"raw": "{{base_url}}/blog/{{blog_id_user1}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"blog",
+						"{{blog_id_user1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Blog",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (pm.response.code === 204) {",
+							"    pm.environment.unset(\"blog_id_user1\");",
+							"    console.log(\"Blog ID removed from environment after blog deletion.\");",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/blog/{{blog_id_user1}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"blog",
+						"{{blog_id_user1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User1 Creates Public Blog Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (pm.response.code === 200) {",
+							"    try {",
+							"        var json = pm.response.json();",
+							"        if (json.id) {",
+							"            pm.environment.set(\"blog_id_user1\", json.id);",
+							"        }",
+							"    } catch (e) {}",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"title\": \"User1 Public Blog\", \"description\": \"desc\", \"content\": \"content\", \"is_public\": true}"
+				},
+				"url": {
+					"raw": "{{base_url}}/blog/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"blog",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Like Blog (Public)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/like/{{blog_id_user1}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"like",
+						"{{blog_id_user1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Try to Like Same Post Twice (Should 400)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/like/{{blog_id_user1}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"like",
+						"{{blog_id_user1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Blog Details After Like (Public)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/blog/{{blog_id_user1}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"blog",
+						"{{blog_id_user1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Like Blog (Private, Owner Only)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/like/{{private_blog_id_user1}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"like",
+						"{{private_blog_id_user1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Blog Details After Like (Private, Owner Only)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/blog/{{private_blog_id_user1}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"blog",
+						"{{private_blog_id_user1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unlike Blog",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/like/{{blog_id_user1}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"like",
+						"{{blog_id_user1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Blog Details After Unike (Public)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/blog/{{blog_id_user1}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"blog",
+						"{{blog_id_user1}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User1 Tries to Update User2's Public Blog (Should 403)",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"title\": \"Hacked by User1\"}"
+				},
+				"url": {
+					"raw": "{{base_url}}/blog/{{blog_id_user2}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"blog",
+						"{{blog_id_user2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User1 Tries to Delete User2's Public Blog (Should 403)",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/blog/{{blog_id_user2}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"blog",
+						"{{blog_id_user2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User1 Tries to Like User2's Private Blog (Should 403)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/like/{{private_blog_id_user2}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"like",
+						"{{private_blog_id_user2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User1 Tries to Like User2's Public Blog",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/like/{{blog_id_user2}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"like",
+						"{{blog_id_user2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get My Stats",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/accounts/me/stats",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"accounts",
+						"me",
+						"stats"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Account (Valid Password)",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"Updated User\", \"password\": \"NewValid1!\"}"
+				},
+				"url": {
+					"raw": "{{base_url}}/accounts/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"accounts",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Account (Invalid Password)",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"password\": \"bad\"}"
+				},
+				"url": {
+					"raw": "{{base_url}}/accounts/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"accounts",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Account",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"if (pm.response.code === 200) {",
+							"    pm.environment.unset(\"token_user1\");",
+							"    console.log(\"Token removed from environment after account deletion.\");",
+							"    console.log(\"Response:\", pm.response.json());",
+							"}"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/accounts/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"accounts",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "User1 Like on User2 blog is deleted after account deletion",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user2}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/blog/{{blog_id_user2}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"blog",
+						"{{blog_id_user2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Me (User 1 Info)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user1}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/accounts/me",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"accounts",
+						"me"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Blogs with Pagination",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user2}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/blog/?skip=0&limit=1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"blog",
+						""
+					],
+					"query": [
+						{
+							"key": "skip",
+							"value": "0"
+						},
+						{
+							"key": "limit",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Try to Unlike Not Liked Post (Should 404)",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user2}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/like/{{blog_id_user2}}",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"like",
+						"{{blog_id_user2}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Try to Access Non-existent Post (Should 404)",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user2}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/blog/99999",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"blog",
+						"99999"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Try to Like Non-existent Post (Should 404)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{token_user2}}"
+					}
+				],
+				"url": {
+					"raw": "{{base_url}}/like/99999",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"like",
+						"99999"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unauthenticated Access - Get Blogs (Should 401)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/blog/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"blog",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unauthenticated Access - Create Blog (Should 401)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"title\": \"Unauthorized Blog\", \"content\": \"content\", \"is_public\": true}"
+				},
+				"url": {
+					"raw": "{{base_url}}/blog/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"blog",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unauthenticated Access - Like Blog (Should 401)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/like/1",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"like",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Register User with Invalid Password (Should 400)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"name\": \"Invalid User\", \"email\": \"invalid@example.com\", \"password\": \"weak\"}"
+				},
+				"url": {
+					"raw": "{{base_url}}/accounts/",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"accounts",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login with Invalid Credentials (Should 400)",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "username",
+							"value": "nonexistent@example.com"
+						},
+						{
+							"key": "password",
+							"value": "wrongpassword"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{base_url}}/accounts/login",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"accounts",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:8000"
+		},
+		{
+			"key": "token_user1",
+			"value": ""
+		},
+		{
+			"key": "token_user2",
+			"value": ""
+		},
+		{
+			"key": "blog_id_user1",
+			"value": ""
+		},
+		{
+			"key": "private_blog_id_user1",
+			"value": ""
+		},
+		{
+			"key": "blog_id_user2",
+			"value": ""
+		},
+		{
+			"key": "private_blog_id_user2",
+			"value": ""
+		}
+	]
+}
